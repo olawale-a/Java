@@ -1,0 +1,110 @@
+// Create Book class
+public class Book {
+    private String title;
+    private String author;
+    private boolean available;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+        this.available = true;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void checkout() {
+        if (available) {
+            available = false;
+            System.out.println("Book checked out successfully.");
+        } else {
+            System.out.println("Book is not available for checkout.");
+        }
+    }
+
+    public void returnBook() {
+        if (!available) {
+            available = true;
+            System.out.println("Book returned successfully.");
+        } else {
+            System.out.println("Book is already available.");
+        }
+    }
+}
+
+
+// Create User class 
+import java.util.ArrayList;
+import java.util.List;
+
+public class User {
+    private String username;
+    private List<Book> borrowedBooks;
+
+    public User(String username) {
+        this.username = username;
+        this.borrowedBooks = new ArrayList<>();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public List<Book> getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public void borrowBook(Book book) {
+        if (book.isAvailable()) {
+            borrowedBooks.add(book);
+            book.checkout();
+        } else {
+            System.out.println("Book is not available for borrowing.");
+        }
+    }
+
+    public void returnBook(Book book) {
+        if (borrowedBooks.contains(book)) {
+            borrowedBooks.remove(book);
+            book.returnBook();
+        } else {
+            System.out.println("You did not borrow this book from the library.");
+        }
+    }
+}
+
+
+// Create Library Management System 
+import java.util.Scanner;
+
+public class LibraryManagementSystem {
+    public static void main(String[] args) {
+        // Sample usage of the library management system
+        Book book1 = new Book("Java Programming", "John Doe");
+        Book book2 = new Book("Data Structures", "Jane Smith");
+
+        User user = new User("user123");
+
+        user.borrowBook(book1);
+
+        // Attempt to borrow the same book again
+        user.borrowBook(book1);
+
+        user.borrowBook(book2);
+
+        // Attempt to return a book that was not borrowed
+        user.returnBook(book2);
+
+        // Return a borrowed book
+        user.returnBook(book1);
+    }
+}
